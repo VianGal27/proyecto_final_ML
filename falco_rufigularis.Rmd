@@ -1,0 +1,58 @@
+---
+title: "Proyecto Final"
+output:
+  html_document:
+    theme: united
+    highlight: tango
+
+---
+#### Aprendizaje Máquina
+> - Salvador Garcilita
+> - José Andrés Villanueva
+> - Vianey Galindo Añel
+
+## Patrones espaciales en la distribución del halcón murcielaguero (Falco rufigularis) en México 
+
+El halcón murcielaguero (Falco rufigularis) es una especie de ave rapaz perteneciente a la familia Falconidae (orden: Falconiformes) ampliamente distribuida en América; históricamente, se encuentra desde el sur de Sonora y Tamaulipas (siendo México el extremo norte de su distribución), distribuyendose a lo largo del país en tierras bajas tropicales y subtropicales de hasta 1500 msnm; el resto de su distribución abarca centroamérica casi en su totalidad y se extiende hasta Ecuador, Perú, Bolivia, Paraguay, Argentina y Brasil; no obstante, es probable que su distribución y abundancia actual hayan cambiado considerablemente, contemplando el intenso cambio de uso de suelo y destrucción de hábitat al que se ha visto sometido el neotrópico, además del uso indiscriminado de pesticidas como el Dicloro Difenil Tricloroetano (DDT) ( Cade, 1982; Mindell et al. 2018).
+Se ha propuesto la existencia de tres subespecies en F. rufigularis; F. r. petoensis, F. r. rufigularis y F. r. ophryophanes; la subespecie perteneciente a México y centroamérica es petoensis y, al igual que las demás, no se considera migratoria, con individuos establecidos a menudo en parejas en el mismo sitio durante todo el año, y en el caso de los juveniles, dispersandose de las áreas de cría y realizando si acaso migraciones locales (Global Raptor Information Network, 2022). No obstante, la población de México aún perteneciendo a la misma subespecie, dada la heterogeneidad del medio respecto a biomas y ejes montañosos, es probable que pueda ser dividida en distintas subpoblaciones si se usan las herramientas adecuadas y se cuenta con los suficientes datos. F. rufigularis, dada su amplia distribución y abundancia en hábitats propicios, se encuentra listado en la categoría de menor preocupación (Least Concern) de la lista roja de la Unión Internacional para la Conservación de la Naturaleza (IUCN, por sus siglas en inglés), no obstante, se estima que su tendencia poblacional es decreciente (IUCN, 2022). 
+
+Una de las particularidades más notorias de las aves como grupo de estudio, es el importante aporte que realizan miembros de la sociedad que no están especializados en la toma de datos debido al interés que despiertan en la gente; estos datos registrados por aficionados poseen gran valor ecológico y deben contemplarse para actualizar y mejorar el estado de conocimiento de las especies, así como fortalecer los lazos entre el sector académico y la sociedad (Berlanga et al. 2015). En particular, eBird es una iniciativa de ciencia ciudadana del Laboratorio de Ornitología de Cornell y la Sociedad Nacional Audubon creada en 2002, que permite recopilar de forma masiva datos colectados por observadores de aves (científicos ciudadanos) usando protocolos estandarizados (Sullivan et al. 2009). Esta fuente de datos puede ser y ha sido aprovechada para evaluar y adaptar las estrategias de conservación de aves en distintas partes del mundo, puesto que ofrece la posibilidad de mejorar nuestro entendimiento de las aves, los hábitats que requieren y cómo protegerlas (Sullivan et al. 2017).
+
+
+
+```{r cars}
+summary(cars)
+```
+
+## Objetivo
+
+El objetivo del presente artículo es revelar cuál es la distribución actual y potencial a futuro de F. rufigularis en México en función de las variables bioclimáticas empleando una metodología que podría servir no sólo para aumentar nuestro entendimiento sobre los patrones biogeográficos de ésta especie, sino la de todo el género Falco, permitiendo conocer si la distribución de la especie se mantendrá constante en el tiempo o si habrá algún cambio considerable, así como detalles en los patrones de su distribución que sólo es posible conocer gracias a 1) la existencia de datos colectados de forma colectiva y sistemática durante largos periodos de tiempo y 2) el uso de técnicas estadísticas y de aprendizaje de máquina (Machine Learning) que permiten procesar estos datos y encontrar patrones donde de otra forma podrían pasar desapercibidos (Kelling et al. 2013).
+```{}
+
+```
+
+## Metodología
+
+### Obtención y pre-procesamiento de datos
+Los datos empleados para el análisis se obtuvieron de la base de datos de eBird (eBird Basic Dataset, 2021), obteniendo los registros de F. rufigularis para los años 2010-2020 a lo largo de todo el país. El procesamiento de datos en éste trabajo se realizó empleando los lenguajes de programación R (R Core Team, 2021) y Python (Van Rossum y Drake, 1995). 
+Una vez obtenida la base, se empleó el paquete de R AUK para procesar los datos, eliminando registros duplicados debido a las listas compartidas por observadores y manteniendo únicamente registros correspondientes al periodo de años 2010-2020 (Strimas-Mackey y  Hochachka, 2018; Strimas-Mackey et al. 2020). Además,  dado el sesgo en la distribución de registros de observaciones en eBird (sesgo de muestreo) y con el fin de generar un modelo estadísticamente más confiable, se realizó un filtrado espacial empleando el paquete de R spThin, obteniendo con el algoritmo un punto por cada cinco kilómetros, y disminuyendo así la autocorrelación espacial en las observaciones, realizando finalmente los modelos con 669 registros (Aiello-Lammens et al. 2015). 
+
+
+```{}
+
+```
+
+## Resultados
+
+```{}
+
+```
+
+## Conclusiones 
+
+```{}
+
+```
+
+
+
