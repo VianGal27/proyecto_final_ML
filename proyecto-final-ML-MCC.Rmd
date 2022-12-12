@@ -1,0 +1,204 @@
+---
+title: "Proyecto final ML"
+author: "Equipo MCC"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+#### Aprendizaje Máquina
+> - Salvador Garcilita
+> - José Andrés Villanueva
+> - Vianey Galindo Añel
+
+## Patrones espaciales en la distribución del halcón murcielaguero (Falco rufigularis) en México 
+
+## Contexto 
+
+### Objetivos
+
+
+## Método 
+
+### Obtención y pre-procesamiento de datos 
+
+Los datos empleados para el análisis se obtuvieron de la base de datos de eBird (eBird Basic Dataset, 2021), obteniendo los registros de F. rufigularis para los años 2010-2020 a lo largo de todo el país. El procesamiento de datos en éste trabajo se realizó empleando los lenguajes de programación R (R Core Team, 2021) y Python (Van Rossum y Drake, 1995). 
+Una vez obtenida la base, se empleó el paquete de R AUK para procesar los datos, eliminando registros duplicados debido a las listas compartidas por observadores y manteniendo únicamente registros correspondientes al periodo de años 2010-2020 (Strimas-Mackey y  Hochachka, 2018; Strimas-Mackey et al. 2020). 
+
+
+
+```{r}
+library(dplyr)
+library(lubridate)
+
+# lectura de datos 
+
+#setwd("C:/Users/Salva/OneDrive/Documentos/programacion/BEDU/proyecto")
+
+halcones <- read.csv("./Halcones_mexico.csv", header = T)
+
+table(halcones$common_name) # las categorias de especies en la tabla 
+
+halcones$observation_date <-   as.Date(halcones$observation_date, format = "%Y-%m-%d")
+
+summary(halcones$observation_date)
+
+# filtramos solo la especie de interés 
+
+halcones <- halcones %>% 
+  select(common_name, latitude, longitude, observation_date) %>% 
+  filter(common_name=="Bat Falcon") %>% 
+  select(common_name, latitude, longitude)
+
+# visualizamos los registros con un scatter plot 
+plot(halcones$longitude, halcones$latitude)
+
+
+```
+
+
+Además,  dado el sesgo en la distribución de registros de observaciones en eBird (sesgo de muestreo) y con el fin de generar un modelo estadísticamente más confiable, se realizó un filtrado espacial empleando el paquete de R spThin, obteniendo con el algoritmo un punto por cada cinco kilómetros, y disminuyendo así la autocorrelación espacial en las observaciones, realizando finalmente los modelos con 669 registros (Aiello-Lammens et al. 2015). 
+
+
+
+```{r}
+
+# install.packages("spThin")
+
+library(spThin)
+library(dplyr)
+
+
+#setwd("C:/Users/Salva/OneDrive/Documentos/programacion/BEDU/proyecto")
+
+
+#####Eliminación de autocorrelación espacial empleando SpThin######
+#locs.thinned.list.return
+
+
+thinned_dataset_full <-
+  thin( loc.data = halcones, #datos de entrada
+        lat.col = "latitude", long.col = "longitude", #columnas con latitud y longitud
+        spec.col = "common_name", #campo con la especie
+        thin.par = 5, reps = 10, #thin par es la distancia en km para separar los puntos
+         locs.thinned.list.return = TRUE, 
+        write.files = F, #permite guardar el resultado
+        max.files = 5, #Numero de posibles soluciones de selecci?n
+        out.dir = "XXX", out.base = "bat_thinned", #crear? directorio y archivos con los registros seleccionados
+        write.log.file = TRUE,
+        log.file = "bat_thinned_file.txt" ) #un resumen del proceso y sus resultados
+
+
+# bat <- thinned_dataset_full[1]
+# bat <- as.data.frame(bat)
+
+
+```
+
+
+### Regionalización de poblaciones 
+
+Para entender la distribución de la especie en el país y su potencial agrupamiento en subpoblaciones, se aplicó un algoritmo DBSCAN (Density-Based Spatial Clustering of Applications with Noise, por sus siglas en inglés), una técnica de agrupamiento de aprendizaje de máquina (Machine Learning) basado en densidad de puntos que permite clasificar en grupos datos no etiquetados de forma no supervisada y que tiene un desempeño apropiado con datos espaciales (Ester et al. 1996). DBSCAN requiere de tres parámetros (en el contexto del Machine Learning, hiper parámetros) que fueron definidos por nosotros; 1) un valor epsilon, que es el criterio de distancia mínima entre dos puntos para ser considerados vecinos y formar un grupo (subpoblación en el contexto del presente trabajo), 2) mínimo de muestras, que es la cantidad mínima de registros agrupados para ser considerados un grupo y no valores atípicos (registros aislados) y 3) una métrica para calcular la distancia entre puntos.
+
+Para elegir el valor más apropiado para epsilon, se realizó primero un modelo de vecinos más cercanos (Nearest Neighbours), otro algoritmo de aprendizaje de máquina que agrupa los datos en función de un número de clusters determinado por el investigador, permitiendo calcular la distancia a los n puntos más cercanos de cada registro, ordenarlos y posteriormente graficarlos para observar el valor óptimo de epsilon, el cual se ve reflejado como el punto de máxima curvatura (Rahmah y Sukaesih, 2016).
+
+
+```{python}
+
+print("hola mundo")
+
+```
+
+
+
+```{python}
+
+import pandas as pd 
+import numpy as np 
+import matplotlib.pyplot as plt
+import seaborn as sns 
+from sklearn.neighbors import NearestNeighbors
+from sklearn.cluster import DBSCAN
+import geopandas as gpd 
+
+# leer:
+# https://medium.com/analytics-vidhya/practical-implementation-of-k-means-hierarchical-and-dbscan-clustering-on-dataset-with-bd7f3d13ef7f
+
+#### aquí hay que conectar la tubería, en el chunk anterior se crea el objeto bat como data frame en R. Aquí hay que conectar ese data frame con un pandas data frame. 
+
+#bat = pd.read_csv("C:/Users/salva/Documents/programacion/BEDU/proyecto/filtrado espacial/bat/Bat_thin1.csv")
+
+
+# la primera columna del arreglo debe ser latitud 
+latitud = bat["latitude"]
+
+
+# la segunda columna del arreglo debe ser longitud 
+longitud = bat["longitude"]
+
+
+# creo un data frame con el orden necesario: 
+bat = pd.DataFrame([latitud, longitud]).transpose()
+
+# Ajustamos el modelo de Nearest Neighbours transformando los valores en radianes
+neigh = NearestNeighbors(metric = 'haversine', n_neighbors=5)
+nbrs = neigh.fit(np.radians(bat))
+distances, _ = nbrs.kneighbors(np.radians(bat))
+
+# Ordenamos las distancias de menor a mayor y observamos el punto (distancia) donde se presenta la mayor curvatura (punto de inflexión en las distancias)
+distances = np.sort(distances, axis=0)
+distances = distances[:,1]
+plt.plot(distances)
+plt.xlabel("Distancia")
+plt.ylabel("Epsilon")
+plt.title("K distancias", fontsize=20)
+plt.show()
+
+```
+
+Finalmente, los hiper parámetros elegidos para el modelo fueron 0.010 para epsilon y 4 para el mínimo de muestras, aplicando la fórmula del semiverseno como métrica para calcular la distancia entre las instancias. El análisis se realizó en Python empleando la librería Scikit-learn (Pedregosa et al. 2011). 
+
+
+```{python}
+
+# Ajustamos el modelo transformando los valores en radianes
+dbscan = DBSCAN(eps=0.010, min_samples=4, metric='haversine') # mejores parámetros so far: eps=0.010, min=4
+
+# vale la pena explorar más combinaciones...
+dbscan.fit(np.radians(bat))
+
+# Obtenemos la etiqueta del clúster para cada observación
+clusters = dbscan.labels_
+
+
+## parte espacial: mapa de mexico (CARGAR .SHAPE DE MÉXICO). 
+mexico = gpd.read_file(".shp")
+
+## grafica sobre mapa
+ax = mexico.plot(color = "lightgrey", linestyle = ":", edgecolor = "black")
+sns.scatterplot(data = bat, x ="longitude", y = "latitude", hue = clusters,  palette="rainbow", ax=ax)
+plt.xlabel("Longitud")
+plt.ylabel("Latitud")
+plt.title("Grupos obtenidos con DBSCAN", fontsize=20)
+plt.show()
+
+
+```
+
+
+## Resultados 
+
+
+
+### Agrupamiento de poblaciones 
+
+Respecto al agrupamiento de los registros, el algoritmo DBSCAN arrojó ocho grupos, con lo cual podríamos entender que la población total de F. rufigularis en México se divide en 8 subpoblaciones (etiquetadas de cero a siete). En color morado y con etiqueta -1, se representan los datos atípicos (o ruido, en el contexto de éste algoritmo), los cuales son registros que no cumplieron con el criterio de permanencia a ningún grupo por la proximidad. 
+
+
+## Modelado de distribucion con random forest
+
+## Referencias 
+
+
+
+
+
