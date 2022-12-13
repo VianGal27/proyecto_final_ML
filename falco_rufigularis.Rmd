@@ -102,7 +102,12 @@ thinned_dataset_full <- thin( loc.data = halcones,
 
 ### Modelo de distribucion espacial
 
-<div align="justify">Se realizó un modelo de nicho ecológico para la especie, considerando las 19 variables ambientales de WorldClim, las cuales fueron: (BIO1) temperatura media anual, (BIO2) rango diurno medio, (BIO3) isotermalidad, (BIO4) estacionalidad de la temperatura, (BIO5) temperatura máxima del mes más cálido, (BIO6) temperatura mínima del mes más frío, (BIO7) rango anual de temperatura, (BIO8) temperatura media del trimestre más húmedo, (BIO9) temperatura media del cuarto más seco, (BIO10) temperatura media del trimestre más cálido, (BIO11) temperatura media del cuarto más frío, (BIO12) precipitación anual, (BIO13) precipitación del mes más húmedo, (BIO14) precipitación del mes más seco, (BIO15) estacionalidad de la precipitación, (BIO16) precipitación del cuarto más húmedo, (BIO17) precipitación del cuarto más seco, (BIO18) precipitación del trimestre más cálido, (BIO19) precipitación del cuarto más frío. Para implementar esto fue necesario el uso de las librerias especializdas maptools, raster y dismo. </div>
+<div align="justify">
+
+Los modelos de distribución de especies son modelos que intentan estimar la similitud entre las condiciones climatológicas en un sitio cualquiera con las condiciones de locaciones conocidas de un fenómeno. En este caso, se utiliza este método para predecir el rango geográfico de una especie con datos ambientales como predictores.
+
+Se realizó un modelo de nicho ecológico para la especie, considerando las 19 variables ambientales de WorldClim, las cuales fueron: (BIO1) temperatura media anual, (BIO2) rango diurno medio, (BIO3) isotermalidad, (BIO4) estacionalidad de la temperatura, (BIO5) temperatura máxima del mes más cálido, (BIO6) temperatura mínima del mes más frío, (BIO7) rango anual de temperatura, (BIO8) temperatura media del trimestre más húmedo, (BIO9) temperatura media del cuarto más seco, (BIO10) temperatura media del trimestre más cálido, (BIO11) temperatura media del cuarto más frío, (BIO12) precipitación anual, (BIO13) precipitación del mes más húmedo, (BIO14) precipitación del mes más seco, (BIO15) estacionalidad de la precipitación, (BIO16) precipitación del cuarto más húmedo, (BIO17) precipitación del cuarto más seco, (BIO18) precipitación del trimestre más cálido, (BIO19) precipitación del cuarto más frío. Para implementar esto fue necesario el uso de las librerias especializdas maptools, raster y dismo. 
+</div>
 
 ```{r message = FALSE, warning = FALSE}
 library(rsample)
