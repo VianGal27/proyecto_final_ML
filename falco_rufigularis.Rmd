@@ -192,6 +192,9 @@ plot(rp)
 
 <div align="justify">Para entender la distribución de la especie en el país y su potencial agrupamiento en subpoblaciones, se aplicó un algoritmo DBSCAN (Density-Based Spatial Clustering of Applications with Noise, por sus siglas en inglés), una técnica de agrupamiento de aprendizaje de máquina basado en densidad de puntos que permite clasificar en grupos datos no etiquetados de forma no supervisada y que tiene un desempeño apropiado con datos espaciales . DBSCAN requiere de tres parámetros (en el contexto del Machine Learning, hiper parámetros) que fueron definidos por nosotros; 1) un valor epsilon, que es el criterio de distancia mínima entre dos puntos para ser considerados vecinos y formar un grupo (subpoblación en el contexto del presente trabajo), 2) mínimo de muestras, que es la cantidad mínima de registros agrupados para ser considerados un grupo y no valores atípicos (registros aislados) y 3) una métrica para calcular la distancia entre puntos.
 
+![Visualización de algoritmo DBSCAN.](./dbscan-principle.png)
+
+
 Para elegir el valor más apropiado para epsilon, se realizó primero un modelo de vecinos más cercanos (Nearest Neighbours), otro algoritmo de aprendizaje de máquina que agrupa los datos en función de un número de clusters determinado por el investigador, permitiendo calcular la distancia a los n puntos más cercanos de cada registro, ordenarlos y posteriormente graficarlos para observar el valor óptimo de epsilon, el cual se ve reflejado como el punto de máxima curvatura.</div>
 
 
