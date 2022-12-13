@@ -172,7 +172,6 @@ plot(eva, 'ROC')
 
 #predictions
 rp <- predict(wc, rrf, ext=mex)
-ggmap(rp)
 plot(bat$Longitude, bat$Latitude)
 plot(rp)
 ```
@@ -187,11 +186,12 @@ plot(rp)
 Para elegir el valor más apropiado para epsilon, se realizó primero un modelo de vecinos más cercanos (Nearest Neighbours), otro algoritmo de aprendizaje de máquina que agrupa los datos en función de un número de clusters determinado por el investigador, permitiendo calcular la distancia a los n puntos más cercanos de cada registro, ordenarlos y posteriormente graficarlos para observar el valor óptimo de epsilon, el cual se ve reflejado como el punto de máxima curvatura.</div>
 
 
-```{r}
+```{r eval = FALSE, echo = FALSE}
 kNNdistplot(bat, k = 4  )
 abline(h = 0.55, lty = 2)
 ```
-```{r}
+
+```{r eval = FALSE, echo = FALSE}
 cl1<-dbscan(bat,eps=0.55,MinPts = 4)
 hullplot(bat,cl1$cluster,  main = "Convex cluster Hulls, eps= 0.55")
 ```
@@ -199,52 +199,70 @@ hullplot(bat,cl1$cluster,  main = "Convex cluster Hulls, eps= 0.55")
 
 
 
-```{python echo=FALSE}
+```{python eval = FALSE}
 
-# import pandas as pd
-# import numpy as np
-# import matplotlib.pyplot as plt
-# import seaborn as sns
-# from sklearn.neighbors import NearestNeighbors
-# from sklearn.cluster import DBSCAN
-# import geopandas as gpd
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.neighbors import NearestNeighbors
+from sklearn.cluster import DBSCAN
+import geopandas as gpd
 
-# # leer:
-# # https://medium.com/analytics-vidhya/practical-implementation-of-k-means-hierarchical-and-dbscan-clustering-on-dataset-with-bd7f3d13ef7f
-# 
-# #### aquí hay que conectar la tubería, en el chunk anterior se crea el objeto bat como data frame en R. Aquí hay que conectar ese data frame con un pandas data frame.
-# 
-# bat = pd.read_csv("./Bat_thinned_file.csv")
-# 
-# 
-# # la primera columna del arreglo debe ser latitud
-# latitud = bat["latitude"]
-# 
-# 
-# # la segunda columna del arreglo debe ser longitud
-# longitud = bat["longitude"]
-# 
-# 
-# # creo un data frame con el orden necesario:
-# bat = pd.DataFrame([latitud, longitud]).transpose()
-# 
-# # Ajustamos el modelo de Nearest Neighbours transformando los valores en radianes
-# neigh = NearestNeighbors(metric = 'haversine', n_neighbors=5)
-# nbrs = neigh.fit(np.radians(bat))
-# distances, _ = nbrs.kneighbors(np.radians(bat))
-# 
-# # Ordenamos las distancias de menor a mayor y observamos el punto (distancia) donde se presenta la mayor curvatura (punto de inflexión en las distancias)
-# distances = np.sort(distances, axis=0)
-# distances = distances[:,1]
-# plt.plot(distances)
-# plt.xlabel("Distancia")
-# plt.ylabel("Epsilon")
-# plt.title("K distancias", fontsize=20)
-# plt.show()
+# aquí hay que conectar la tubería, en el chunk anterior se crea el objeto bat como data frame en R. Aquí hay que conectar ese data frame con un pandas data frame.
+
+bat = pd.read_csv("./Bat_thinned_file.csv")
+
+# la primera columna del arreglo debe ser latitud
+latitud = bat["latitude"]
+
+# la segunda columna del arreglo debe ser longitud
+longitud = bat["longitude"]
+
+# creo un data frame con el orden necesario:
+bat = pd.DataFrame([latitud, longitud]).transpose()
+
+# Ajustamos el modelo de Nearest Neighbours transformando los valores en radianes
+neigh = NearestNeighbors(metric = 'haversine', n_neighbors=5)
+nbrs = neigh.fit(np.radians(bat))
+distances, _ = nbrs.kneighbors(np.radians(bat))
+
+# Ordenamos las distancias de menor a mayor y observamos el punto (distancia) donde se presenta la mayor curvatura (punto de inflexión en las distancias)
+distances = np.sort(distances, axis=0)
+distances = distances[:,1]
+plt.plot(distances)
+plt.xlabel("Distancia")
+plt.ylabel("Epsilon")
+plt.title("K distancias", fontsize=20)
+plt.show()
 
 ```
 
+![Curva de puntos ordenados por distancia para determinación del parámetro épsilon.](./KMEANS.png)
+```{python eval = FALSE}
 
+# Ajustamos el modelo transformando los valores en radianes
+dbscan = DBSCAN(eps=0.010, min_samples=4, metric='haversine') # mejores parámetros so far: eps=0.010, min=4
+
+# vale la pena explorar más combinaciones...
+dbscan.fit(np.radians(bat))
+
+# Obtenemos la etiqueta del clúster para cada observación
+clusters = dbscan.labels_
+
+## parte espacial: mapa de mexico (CARGAR .SHAPE DE MÉXICO). 
+mexico = gpd.read_file(".shp")
+
+## grafica sobre mapa
+ax = mexico.plot(color = "lightgrey", linestyle = ":", edgecolor = "black")
+sns.scatterplot(data = bat, x ="longitude", y = "latitude", hue = clusters,  palette="rainbow", ax=ax)
+plt.xlabel("Longitud")
+plt.ylabel("Latitud")
+plt.title("Grupos obtenidos con DBSCAN", fontsize=20)
+plt.show()
+```
+
+![Agrupamiento de registros de F. rufigularis con el algoritmo DBSCAN.](./MAP.png)
 
 
 
@@ -252,9 +270,7 @@ hullplot(bat,cl1$cluster,  main = "Convex cluster Hulls, eps= 0.55")
 ## Resultados
 
 Falco rufigularis es una especie que se encuentra principalmente en la parte sur del país, mostrando una continua idoneidad en las costas y en la península de Yucatán (el modelo generado tiene un AUC de 0.90 ).
-```{r}
 
-```
 
 Respecto al agrupamiento de los registros, el algoritmo DBSCAN arrojó ocho grupos, con lo cual podríamos entender que la población total de F. rufigularis en México se divide en 8 subpoblaciones (etiquetadas de cero a siete). En color morado y con etiqueta -1, se representan los datos atípicos (o ruido, en el contexto de éste algoritmo), los cuales son registros que no cumplieron con el criterio de permanencia a ningún grupo por la proximidad. 
 ```{r}

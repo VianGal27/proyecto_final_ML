@@ -372,3 +372,71 @@ loc.cnt df.freq
 Maximum number of records after thinning: 669
 Number of data.frames with max records: 2
 No files written for this run.
+********************************************** 
+ Beginning Spatial Thinning.
+ Script Started at: Mon Dec 12 22:19:40 2022
+
+Thinning Parameter Used (in km): 5
+Number of replicates of thinning script: 10
+
+Elapsed time for thinning completion
+16.768 5.492 33.028 0 0
+
+Number of data.frames per locations retained
+loc.cnt df.freq
+666	667	668
+2	5	3
+Maximum number of records after thinning: 668
+Number of data.frames with max records: 3
+No files written for this run.
+********************************************** 
+ Beginning Spatial Thinning.
+ Script Started at: Mon Dec 12 22:28:12 2022
+
+Thinning Parameter Used (in km): 5
+Number of replicates of thinning script: 10
+
+Elapsed time for thinning completion
+18.115 5.406 37.614 0 0
+
+Number of data.frames per locations retained
+loc.cnt df.freq
+665	666	667	668	670
+1	2	2	3	2
+Maximum number of records after thinning: 670
+Number of data.frames with max records: 2
+No files written for this run.
+********************************************** 
+ Beginning Spatial Thinning.
+ Script Started at: Mon Dec 12 22:33:31 2022
+
+Thinning Parameter Used (in km): 5
+Number of replicates of thinning script: 10
+
+Elapsed time for thinning completion
+16.718 5.074 33.639 0 0
+
+Number of data.frames per locations retained
+loc.cnt df.freq
+666	667	669
+2	5	3
+Maximum number of records after thinning: 669
+Number of data.frames with max records: 3
+No files written for this run.
+********************************************** 
+ Beginning Spatial Thinning.
+ Script Started at: Mon Dec 12 22:36:30 2022
+
+Thinning Parameter Used (in km): 5
+Number of replicates of thinning script: 10
+
+Elapsed time for thinning completion
+16.559 5.094 31.556 0 0
+
+Number of data.frames per locations retained
+loc.cnt df.freq
+665	666	667	668	669
+1	1	3	3	2
+Maximum number of records after thinning: 669
+Number of data.frames with max records: 2
+No files written for this run.
