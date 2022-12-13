@@ -102,7 +102,12 @@ thinned_dataset_full <- thin( loc.data = halcones,
 
 ### Modelo de distribucion espacial
 
-<div align="justify">Se realizó un modelo de nicho ecológico para la especie, considerando las 19 variables ambientales de WorldClim, las cuales fueron: (BIO1) temperatura media anual, (BIO2) rango diurno medio, (BIO3) isotermalidad, (BIO4) estacionalidad de la temperatura, (BIO5) temperatura máxima del mes más cálido, (BIO6) temperatura mínima del mes más frío, (BIO7) rango anual de temperatura, (BIO8) temperatura media del trimestre más húmedo, (BIO9) temperatura media del cuarto más seco, (BIO10) temperatura media del trimestre más cálido, (BIO11) temperatura media del cuarto más frío, (BIO12) precipitación anual, (BIO13) precipitación del mes más húmedo, (BIO14) precipitación del mes más seco, (BIO15) estacionalidad de la precipitación, (BIO16) precipitación del cuarto más húmedo, (BIO17) precipitación del cuarto más seco, (BIO18) precipitación del trimestre más cálido, (BIO19) precipitación del cuarto más frío. Para implementar esto fue necesario el uso de las librerias especializdas maptools, raster y dismo. </div>
+<div align="justify">
+
+Los modelos de distribución de especies son modelos que intentan estimar la similitud entre las condiciones climatológicas en un sitio cualquiera con las condiciones de locaciones conocidas de un fenómeno. En este caso, se utiliza este método para predecir el rango geográfico de una especie con datos ambientales como predictores.
+
+Se realizó un modelo de nicho ecológico para la especie, considerando las 19 variables ambientales de WorldClim, las cuales fueron: (BIO1) temperatura media anual, (BIO2) rango diurno medio, (BIO3) isotermalidad, (BIO4) estacionalidad de la temperatura, (BIO5) temperatura máxima del mes más cálido, (BIO6) temperatura mínima del mes más frío, (BIO7) rango anual de temperatura, (BIO8) temperatura media del trimestre más húmedo, (BIO9) temperatura media del cuarto más seco, (BIO10) temperatura media del trimestre más cálido, (BIO11) temperatura media del cuarto más frío, (BIO12) precipitación anual, (BIO13) precipitación del mes más húmedo, (BIO14) precipitación del mes más seco, (BIO15) estacionalidad de la precipitación, (BIO16) precipitación del cuarto más húmedo, (BIO17) precipitación del cuarto más seco, (BIO18) precipitación del trimestre más cálido, (BIO19) precipitación del cuarto más frío. Para implementar esto fue necesario el uso de las librerias especializdas maptools, raster y dismo. 
+</div>
 
 ```{r message = FALSE, warning = FALSE}
 library(rsample)
@@ -164,7 +169,13 @@ train_data <- training(bat_split)
 test_data <- testing(bat_split)
 
 cart <- rpart(pa~., data=train_data)
+```
+### Selección de Modelo Random Forrest
 
+<div align="justify">Existen distintos métodos que han sido utilizados para modelar la distribución de las especies. Dependiendo del caso se puede utilizar desde Modelos de Regresión Clásicos hasta otros metodos de Aprendizaje de Máquina (Hijmans, R., Elith, J. (2011). Species distribution modeling with R). Dada la cantidad de registros en el dataset y el problema a predecir, se decidió utilizar Random Forrest para la predicción de las zonas de clima ideoneo donde puede habitar el Halcón Falco Regularis, considerando los resultados entregados por investigaciones con tamaños de muestreo similares que buscan predecir  la distribución de especies de aves (Mi, C., Huettmann, F., Guo, Y., Han, X., &amp; Wen, L. (2017). Why choose random forest to predict rare species distribution with few samples in large undersampled areas? Three Asian crane species models provide supporting evidence. PeerJ, 5. https://doi.org/10.7717/peerj.2849 ) </div>
+
+
+```{r message = FALSE, warning = FALSE}
 #para encontrar el hiperparametro mtry
 trf <- tuneRF(train_data[, 1:19], train_data[, 'pa'])
 mt <- trf[which.min(trf[,2]), 1]
