@@ -38,6 +38,15 @@ Una de las particularidades más notorias de las aves como grupo de estudio, es 
 
 El nicho ecológico es un concepto que ayuda a explicar la distribución geográfica de una especie dentro de un ecosistema, contemplando factores bióticos y abióticos, así como el papel de los individuos dentro de éste. El modelado de nicho ecológico es útil para diversas áreas de estudio, donde se toman decisiones contemplando información biológica y estadística procesada con ayuda de Sistemas de Información Geográfica (SIG) y otras herramientas digitales como lenguajes de programación, que permiten analizar grandes cantidades de datos. Su objetivo es modelar los requisitos ambientales de la especie y así poder identificar las áreas adecuadas para ella, además es usada para la predicción de distribuciones, proponer áreas de conservación e incluso mapeo de información de importancia médica como aumento en la distribución de especies que son vectores de enfermedades; Existen tres principios que deben ser contemplados al escoger las variables predictivas:  variables cuyos valores no son afectados por la especie, evitar el uso de variables puramente espaciales, y usar variables causales. La construcción de estos modelos es un proceso de clasificación que debe generar un valor numérico y reciben diferentes denominaciones según su interpretación; en los registros de la especie el investigador debe prestar especial atención al margen de error y sesgo que puedan existir en la dispersión, las interacciones biológicas y cambios ambientales. </div>
 
+<br>
+<br>
+
+<center>
+![](./FALCO.jpeg)
+</center>
+
+<br>
+<br>
 
 ## Objetivo
 
