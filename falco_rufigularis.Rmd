@@ -4,7 +4,7 @@ output:
   html_document:
     theme: united
     highlight: tango
-
+  pdf_document: default
 ---
 
 
@@ -50,7 +50,7 @@ El nicho ecológico es un concepto que ayuda a explicar la distribución geográ
 
 ## Objetivo
 
-<div align="justify">El objetivo del presente artículo es revelar cuál es la distribución actual y potencial a futuro de F. rufigularis en México en función de las variables bioclimáticas empleando una metodología que podría servir no sólo para aumentar nuestro entendimiento sobre los patrones biogeográficos de ésta especie, sino la de todo el género Falco, permitiendo conocer si la distribución de la especie se mantendrá constante en el tiempo o si habrá algún cambio considerable, así como detalles en los patrones de su distribución que sólo es posible conocer gracias a 1) la existencia de datos colectados de forma colectiva y sistemática durante largos periodos de tiempo y 2) el uso de técnicas estadísticas y de aprendizaje de máquina (Machine Learning) que permiten procesar estos datos y encontrar patrones donde de otra forma podrían pasar desapercibidos (Kelling et al. 2013).</div>
+<div align="justify">El objetivo del presente trabajo  es modelar la distribución actual de F. rufigularis en México en función de las variables bioclimáticas empleando una metodología que podría servir no sólo para aumentar nuestro entendimiento sobre los patrones biogeográficos de ésta especie, sino la de todo el género Falco, permitiendo conocer detalles en los patrones de su distribución que sólo es posible revelar gracias a 1) la existencia de datos colectados de forma colectiva y sistemática durante largos periodos de tiempo y 2) el uso de técnicas estadísticas y de aprendizaje de máquina (Machine Learning) que permiten procesar estos datos y encontrar patrones donde de otra forma podrían pasar desapercibidos (Kelling et al. 2013).</div>
 
 ## Metodología
 
@@ -181,7 +181,6 @@ plot(eva, 'ROC')
 
 #predictions
 rp <- predict(wc, rrf, ext=mex)
-plot(bat$Longitude, bat$Latitude)
 plot(rp)
 ```
 
@@ -281,7 +280,7 @@ plt.show()
 
 ## Resultados
 
-Falco rufigularis es una especie que se encuentra principalmente en la parte sur del país, mostrando una continua idoneidad en las costas y en la península de Yucatán (el modelo generado tiene un AUC de 0.90 ).
+Falco rufigularis es una especie que se encuentra principalmente en la parte sur del país, mostrando una continua idoneidad en las costas y en la península de Yucatán (el modelo generado tiene un AUC de 0.82 ).
 
 
 Respecto al agrupamiento de los registros, el algoritmo DBSCAN arrojó ocho grupos, con lo cual podríamos entender que la población total de F. rufigularis en México se divide en 8 subpoblaciones (etiquetadas de cero a siete). En color morado y con etiqueta -1, se representan los datos atípicos (o ruido, en el contexto de éste algoritmo), los cuales son registros que no cumplieron con el criterio de permanencia a ningún grupo por la proximidad. 
